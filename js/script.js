@@ -72,7 +72,41 @@ function displayLibrary() {
     myLibrary.forEach((book) => {
         const bookBody = document.createElement(`article`);
         bookBody.classList.add(`book`);
-        bookBody.textContent = `${book.info()}`;
+
+        const bookInfo = document.createElement(`div`)
+        const bookOptions = bookInfo.cloneNode(false);
+        bookInfo.classList.add(`book-info`);
+        bookOptions.classList.add(`book-options`);
+
+        const title = document.createElement(`p`);
+        title.textContent = `${book.title}`;
+
+        const author = title.cloneNode();
+        author.textContent = `${book.author}`;
+
+        const pages = title.cloneNode();
+        pages.textContent = `${book.pages}`;
+
+        const read = title.cloneNode();
+        read.textContent = `${book.read}`
+        // bookBody.textContent = `${book.info()}`;
+
+        const edit_btn = document.createElement(`button`);
+        edit_btn.textContent = `edit`;
+        const remove_btn = edit_btn.cloneNode(false);
+        remove_btn.textContent = `remove`;
+
+
+        bookInfo.appendChild(title);
+        bookInfo.appendChild(author);
+        bookInfo.appendChild(pages);
+        bookInfo.appendChild(read);
+        bookBody.appendChild(bookInfo);
+
+        bookOptions.appendChild(edit_btn);
+        bookOptions.appendChild(remove_btn);
+        bookBody.appendChild(bookOptions);
+
         library_shelf.appendChild(bookBody);
     });
 }
