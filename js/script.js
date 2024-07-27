@@ -6,7 +6,8 @@ const myLibrary = [{
     read: false,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
-    }
+    },
+    id: 0,
 },
 {
     title: `book 2`,
@@ -15,7 +16,8 @@ const myLibrary = [{
     read: true,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
-    }
+    },
+    id: 1,
 },
 {
     title: `book 3`,
@@ -24,10 +26,11 @@ const myLibrary = [{
     read: false,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
-    }
+    },
+    id: 2,
 }];
 
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, id) {
     this.title = title;
     this.author = author;
     this.pages = pages
@@ -35,6 +38,7 @@ function Book(title, author, pages, read) {
     this.info = () => {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
     };
+    this.id = id;
 }
 
 /** library stuff */
@@ -56,6 +60,8 @@ function addBookToLibrary(bookFormData) {
     //since formData array object size changes to NOT include check box if unchecked
     if (newBook.read === undefined) newBook.read = false;
 
+    newBook.id = myLibrary.length;
+
     myLibrary.push(newBook);
 }
 
@@ -72,6 +78,7 @@ function displayLibrary() {
     myLibrary.forEach((book) => {
         const bookBody = document.createElement(`article`);
         bookBody.classList.add(`book`);
+        bookBody.setAttribute(`id`, `${book.id}`);
 
         const bookInfo = document.createElement(`div`)
         const bookOptions = bookInfo.cloneNode(false);
@@ -89,12 +96,16 @@ function displayLibrary() {
 
         const read = title.cloneNode();
         read.textContent = `${book.read}`
-        // bookBody.textContent = `${book.info()}`;
 
-        const edit_btn = document.createElement(`button`);
-        edit_btn.textContent = `edit`;
-        const remove_btn = edit_btn.cloneNode(false);
+
+
+        const remove_btn = document.createElement(`button`);
+        remove_btn.classList.add(`remove-btn`);
+        remove_btn.classList.add(`button`);
         remove_btn.textContent = `remove`;
+
+        // const edit_btn = remove_btn.cloneNode(false);
+        // edit_btn.textContent = `edit`;
 
 
         bookInfo.appendChild(title);
@@ -103,7 +114,7 @@ function displayLibrary() {
         bookInfo.appendChild(read);
         bookBody.appendChild(bookInfo);
 
-        bookOptions.appendChild(edit_btn);
+        // bookOptions.appendChild(edit_btn);
         bookOptions.appendChild(remove_btn);
         bookBody.appendChild(bookOptions);
 
@@ -122,17 +133,33 @@ function processForm() {
 
 
 /** display modal stuff */
-
 const add_book_btn = document.querySelector(`.add-btn`);
-const add_book_dialogue = document.querySelector(`#add-book-dialogue`)
-const add_dialogue_btn_group = add_book_dialogue.querySelectorAll(".add-book-btn-group")
+const add_book_dialogue = document.querySelector(`#add-book-dialogue`);
+const add_dialogue_btn_group = add_book_dialogue.querySelectorAll(".add-book-btn-group");
+const book_option_buttons = document.querySelector(`.library`);//<---parent node for bubbling due to generated dom
 
 
+function modalRemoveBtnEventListener(event) {
+    //find article tag index position (books of library) in display's library NodeLIst
+    //target parent parent of button for node position 
+    const index = event.target.parentNode.parentNode.id;
+    myLibrary.splice(index, 1);
+
+    //remap id to new standing
+    for (let i = 0; i < myLibrary.length; i++) {
+        myLibrary[i].id = i;
+    }
+
+    displayLibrary();
+};
+
+
+// show modal event listener
 add_book_btn.addEventListener(`click`, (e) => {
     add_book_dialogue.showModal();
 });
 
-//dialog/modal event listeners
+// dialog/modal event listeners
 add_dialogue_btn_group.forEach((button) => {
     button.addEventListener(`click`, (e) => {
 
@@ -158,12 +185,8 @@ add_dialogue_btn_group.forEach((button) => {
                 console.log(`not all fields have been filled`)
             }
             else {
-                //1. get data from form
+                //get data from form
                 processForm();
-
-                //2. format data (after validation)
-
-                //3.display to shelf from library[]
                 displayLibrary();
             }
 
@@ -171,3 +194,17 @@ add_dialogue_btn_group.forEach((button) => {
 
     })
 });
+
+// book-cards event listeners
+book_option_buttons.addEventListener(`click`, (e) => {
+    console.log(e.target.classList[1] === `remove-btn`);
+
+    if (e.target.classList[0] === `remove-btn`) {
+        modalRemoveBtnEventListener(e);
+    }
+
+    //toogle click riiiiiiight here fro read or not
+
+})
+
+
