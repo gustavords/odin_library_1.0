@@ -155,7 +155,7 @@ function modalRemoveBtnEventListener(event) {
     displayLibrary();
 };
 
-function updateBookRead(event){
+function updateBookRead(event) {
     const index = event.target.parentNode.parentNode.id;
     myLibrary[index].read = event.target.checked;
 }
@@ -180,7 +180,7 @@ add_dialogue_btn_group.forEach((button) => {
 
             //check if forms are filled
             let arr = []
-            const formElements = document.querySelectorAll(`#add-book-form > input`)
+            const formElements = document.querySelectorAll(`#add-book-form>div>input`)
             formElements.forEach((element) => {
                 arr.push(element.value != ``);
             });
@@ -208,7 +208,7 @@ book_option_buttons.addEventListener(`click`, (e) => {
         modalRemoveBtnEventListener(e);
     }
 
-    if(e.target.classList[0] === `read-checkbox`){
+    if (e.target.classList[0] === `read-checkbox`) {
         console.log(e.target);
         updateBookRead(e);
     }

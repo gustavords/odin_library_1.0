@@ -1,11 +1,134 @@
-.library{
+.library {
     outline: 1px red solid;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-.book{
+.book {
     outline: 1px purple solid;
     min-height: 150px;
 }
 
+
+#add-book-dialogue {
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+#dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    & #add-book-form {
+        display: inherit;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        & div {
+            display: inherit;
+            flex-direction: column;
+
+            & label {
+                letter-spacing: .1rem;
+            }
+
+            & input {
+                appearance: none;
+                border: none;
+                outline: .09rem solid black;
+                border-radius: .25rem;
+            }
+
+            & input:focus {
+                border: none;
+                outline: .1rem solid blue;
+            }
+
+            & .read-toggle {
+                background-color: grey;
+                width: 2rem;
+                height: 1.1rem;
+                border-radius: 2rem;
+                cursor: pointer;
+                position: relative;
+                transition: 0.2s;
+
+                & span {
+                    position: relative;
+                    text-wrap: nowrap;
+                    left: 2.5rem;
+                }
+
+                & span::before {
+                    content: "Unread";
+
+                }
+            }
+
+            & .read-toggle::before {
+                position: absolute;
+                left: 2px;
+                bottom: 1.5px;
+                content: "";
+                background-color: white;
+                width: .9rem;
+                height: .9rem;
+                border-radius: 50%;
+                transition: 0.2s;
+
+            }
+
+            & input[type="checkbox"]:checked+.read-toggle {
+                background-color: green;
+
+                & span::before {
+                    content: "Read";
+                }
+            }
+
+            & input[type="checkbox"]:checked+.read-toggle::before {
+                transform: translateX(14px);
+            }
+
+            & input[type="checkbox"] {
+                display: none;
+            }
+
+
+        }
+
+        & div:last-child {
+            flex-direction: row;
+            gap: 1rem;
+        }
+
+    }
+
+    & .dialogue-book-btn-group {
+        display: inherit;
+        justify-content: flex-end;
+        gap: .5rem;
+
+        & button {
+            appearance: none;
+            flex: 1;
+            padding: .4rem 1rem;
+            border-radius: .5rem;
+            border: none;
+        }
+
+        & button:hover {
+            outline: 1px black solid;
+
+        }
+
+        & button:active {
+            outline: 1px white solid;
+            color: white;
+            background-color: black;
+        }
+    }
+
+}

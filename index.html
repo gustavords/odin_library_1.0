@@ -16,22 +16,31 @@
 
     <!-- This dialogue can be anywhere in the html -->
     <dialog id="add-book-dialogue">
-        <form method="dialog" id="add-book-form">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" required>
-
-            <label for="author">Author:</label>
-            <input type="text" name="author" id="author" pattern="[a-zA-Z ]+" required>
-            
-            <label for="pages">Pages:</label>
-            <input type="number" name="pages" id="pages" pattern="[0-9]" required>
-            
-            <label for="">Read:</label>
-            <input type="checkbox" name="read" id="read" checked>
-
-        </form>
-        <button type="submit" form="add-book-form" class="add-book-btn-group button" id="add-btn-dialog" value="pressed">add</button>
-        <button class="add-book-btn-group button" id="cancel-btn-dialog">Cancel</button>
+        <div id="dialog-body">
+            <form method="dialog" id="add-book-form">
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+                <div>
+                    <label for="author">Author:</label>
+                    <input type="text" name="author" id="author" pattern="[a-zA-Z ]+" required>
+                </div>
+                <div>
+                    <label for="pages">Pages:</label>
+                    <input type="number" name="pages" id="pages" pattern="[0-9]" required>
+                </div>
+                <div>
+                    <input type="checkbox" name="read" id="read" checked>
+                    <label for="read" class="read-toggle"><span></span></label>
+                </div>
+            </form>
+            <div class="dialogue-book-btn-group">
+                <button type="submit" form="add-book-form" class="add-book-btn-group button" id="add-btn-dialog"
+                    value="pressed">add</button>
+                <button class="add-book-btn-group button" id="cancel-btn-dialog">Cancel</button>
+            </div>
+        </div>
 
     </dialog>
 

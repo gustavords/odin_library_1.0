@@ -4,3 +4,5 @@ clues:
 https://typeofnan.dev/how-to-bind-event-listeners-on-dynamically-created-elements-in-javascript/
 
 https://bobbyhadz.com/blog/detect-when-element-is-added-or-removed-from-dom-using-javascript
+
+https://medium.com/@maketechstuff/how-to-make-toggle-button-using-html-and-css-7bdadadc27d9
