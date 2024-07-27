@@ -94,8 +94,10 @@ function displayLibrary() {
         const pages = title.cloneNode();
         pages.textContent = `${book.pages}`;
 
-        const read = title.cloneNode();
-        read.textContent = `${book.read}`
+        const read = document.createElement(`input`);
+        read.setAttribute(`type`, `checkbox`);
+        read.classList.add(`read-checkbox`);
+        read.checked = book.read;
 
 
 
@@ -153,8 +155,12 @@ function modalRemoveBtnEventListener(event) {
     displayLibrary();
 };
 
+function updateBookRead(event){
+    const index = event.target.parentNode.parentNode.id;
+    myLibrary[index].read = event.target.checked;
+}
 
-// show modal event listener
+// show-modal/static-page event listeners
 add_book_btn.addEventListener(`click`, (e) => {
     add_book_dialogue.showModal();
 });
@@ -197,14 +203,15 @@ add_dialogue_btn_group.forEach((button) => {
 
 // book-cards event listeners
 book_option_buttons.addEventListener(`click`, (e) => {
-    console.log(e.target.classList[1] === `remove-btn`);
 
     if (e.target.classList[0] === `remove-btn`) {
         modalRemoveBtnEventListener(e);
     }
 
-    //toogle click riiiiiiight here fro read or not
+    if(e.target.classList[0] === `read-checkbox`){
+        console.log(e.target);
+        updateBookRead(e);
+    }
+
 
 })
-
-
