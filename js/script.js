@@ -37,23 +37,37 @@ function Book(title, author, pages, read) {
     };
 }
 
-// const theHobbit = new Book(`The Hobbit`, `J.R.R. Tolkien`, 295, false);
-// console.log(theHobbit.info());
-
 /** library stuff */
+function addBookToLibrary(bookFormData) {
+    const newBook = new Book()
+    bookFormData.forEach((val, prop) => {
+        switch (prop) {
+            case `title`: newBook.title = val;
+                break;
+            case `author`: newBook.author = val;
+                break;
+            case `pages`: newBook.pages = val;
+                break;
+            case `read`:
+                newBook.read = true;
+                break;
+        }
+    })
+    //since formData array object size changes to NOT include check box if unchecked
+    if (newBook.read === undefined) newBook.read = false;
 
-function addBookToLibrary(bookFormNodeList) {
-
-    /**
-     * get input variables from a form
-     * match inputs to Book Constructor variables
-     * create new Book object
-     * place book in library
-     */
+    myLibrary.push(newBook);
 }
 
 function displayLibrary() {
     const library_shelf = document.querySelector(`.library`);
+    const allBooks = document.querySelectorAll(`.book`);
+
+    //unload shelf
+    Array.from(allBooks).forEach((book) => {
+        book.remove();
+    });
+
 
     myLibrary.forEach((book) => {
         const bookBody = document.createElement(`article`);
@@ -63,62 +77,63 @@ function displayLibrary() {
     });
 }
 
-
-
-
 /** Form stuff */
-function activateFormModal() {
-    const form = document.querySelector(`#form_test`);
-    // const items = document.forms.namedItem(`form_test`);
-    let data = null;
+function processForm() {
+    const form = document.querySelector(`#add-book-form`);
+    const data = new FormData(form);
 
-    form.addEventListener(`submit`, (e) => {
-
-        e.preventDefault();
-        data = new FormData(form);
-
-        //1.validate <------------------------------------
-
-
-        // data.forEach((key, value) => {
-        //     console.log(`Key: ${key}  |  Value: ${value}`);
-        // });
-        // console.log(items[0].value);
-        // console.log(e.target[0].value);
-        // console.log(e)
-        console.table(Array.from(data));
-    });
-
+    //validate || change data format here <-----------------------
+    addBookToLibrary(data);
 }
-
-
-
-
 
 
 /** display modal stuff */
 
 const add_book_btn = document.querySelector(`.add-btn`);
 const add_book_dialogue = document.querySelector(`#add-book-dialogue`)
-const add_btn_in_dialogue = add_book_dialogue.querySelector(`button`);
+const add_dialogue_btn_group = add_book_dialogue.querySelectorAll(".add-book-btn-group")
 
 
 add_book_btn.addEventListener(`click`, (e) => {
     add_book_dialogue.showModal();
 });
 
-add_btn_in_dialogue.addEventListener(`click`, () => {
-    activateFormModal();
+//dialog/modal event listeners
+add_dialogue_btn_group.forEach((button) => {
+    button.addEventListener(`click`, (e) => {
 
+        //cancel-btn inside dialog
+        if (e.target.getAttribute(`id`) === `cancel-btn-dialog`) {
+            console.log(e.target.getAttribute(`id`));
+            add_book_dialogue.close();
+        }
 
+        //add-btn inside dialog
+        if (e.target.getAttribute(`id`) === `add-btn-dialog`) {
 
-    //2.add to Library []
+            //check if forms are filled
+            let arr = []
+            const formElements = document.querySelectorAll(`#add-book-form > input`)
+            formElements.forEach((element) => {
+                arr.push(element.value != ``);
+            });
 
+            let formNotFilled = arr.includes(false);
 
-    //3.display to shelf from library[]
-    displayLibrary();
+            if (formNotFilled === true) {
+                console.log(`not all fields have been filled`)
+            }
+            else {
+                //1. get data from form
+                processForm();
 
+                //2. format data (after validation)
 
+                //3.display to shelf from library[]
+                displayLibrary();
+            }
 
-    add_book_dialogue.close();
+        }
+
+    })
 });
