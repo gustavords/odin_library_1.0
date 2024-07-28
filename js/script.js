@@ -1,8 +1,13 @@
+const add_book_btn = document.querySelector(`.add-btn`);
+const add_book_dialogue = document.querySelector(`#add-book-dialogue`);
+const add_dialogue_btn_group = add_book_dialogue.querySelectorAll(".add-book-btn-group");
+const book_option_buttons = document.querySelector(`.library`);//<---parent node for bubbling due to generated dom
+
 //dummy data
 const myLibrary = [{
-    title: `book 1`,
-    author: `author 1`,
-    pages: `777`,
+    title: `God Emperor Dune`,
+    author: `Frank Herbert`,
+    pages: 423,
     read: false,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
@@ -10,9 +15,9 @@ const myLibrary = [{
     id: 0,
 },
 {
-    title: `book 2`,
-    author: `author 2`,
-    pages: `666`,
+    title: `The Name of the Wind: The Kingkiller Chronicle: Book 1`,
+    author: `Patrick Rothfuss `,
+    pages: 661,
     read: true,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
@@ -20,9 +25,10 @@ const myLibrary = [{
     id: 1,
 },
 {
-    title: `book 3`,
-    author: `author 3`,
-    pages: `555`,
+    title: `Overcoming Gravity: A Systematic Approach to Gymnastics and Bodyweight Strength`,
+    author: `Steven Low
+`,
+    pages: 542,
     read: false,
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
@@ -74,7 +80,6 @@ function displayLibrary() {
         book.remove();
     });
 
-
     myLibrary.forEach((book) => {
         const bookBody = document.createElement(`article`);
         bookBody.classList.add(`book`);
@@ -112,10 +117,6 @@ function displayLibrary() {
         remove_btn.classList.add(`button`);
         remove_btn.textContent = `remove`;
 
-        // const edit_btn = remove_btn.cloneNode(false);
-        // edit_btn.textContent = `edit`;
-
-
         bookInfo.appendChild(title);
         bookInfo.appendChild(author);
         bookInfo.appendChild(pages);
@@ -124,7 +125,6 @@ function displayLibrary() {
         bookInfo.appendChild(readLbl);
         bookBody.appendChild(bookInfo);
 
-        // bookOptions.appendChild(edit_btn);
         bookOptions.appendChild(remove_btn);
         bookBody.appendChild(bookOptions);
 
@@ -140,14 +140,6 @@ function processForm() {
     //validate || change data format here <-----------------------
     addBookToLibrary(data);
 }
-
-
-/** display modal stuff */
-const add_book_btn = document.querySelector(`.add-btn`);
-const add_book_dialogue = document.querySelector(`#add-book-dialogue`);
-const add_dialogue_btn_group = add_book_dialogue.querySelectorAll(".add-book-btn-group");
-const book_option_buttons = document.querySelector(`.library`);//<---parent node for bubbling due to generated dom
-
 
 function modalRemoveBtnEventListener(event) {
     //find article tag index position (books of library) in display's library NodeLIst
@@ -179,7 +171,6 @@ add_dialogue_btn_group.forEach((button) => {
 
         //cancel-btn inside dialog
         if (e.target.getAttribute(`id`) === `cancel-btn-dialog`) {
-            console.log(e.target.getAttribute(`id`));
             add_book_dialogue.close();
         }
 
