@@ -89,13 +89,19 @@ function displayLibrary() {
         title.textContent = `${book.title}`;
 
         const author = title.cloneNode();
-        author.textContent = `${book.author}`;
+        author.textContent = `by ${book.author}`;
 
         const pages = title.cloneNode();
-        pages.textContent = `${book.pages}`;
+        pages.textContent = `${book.pages} pages`;
+
+        const readLbl = document.createElement(`label`);
+        readLbl.setAttribute(`for`, `${book.id}-read`);
+        readLbl.classList.add(`read-toggle`);
+        const readSpan = document.createElement(`span`);
 
         const read = document.createElement(`input`);
         read.setAttribute(`type`, `checkbox`);
+        read.setAttribute(`id`, `${book.id}-read`);
         read.classList.add(`read-checkbox`);
         read.checked = book.read;
 
@@ -114,6 +120,8 @@ function displayLibrary() {
         bookInfo.appendChild(author);
         bookInfo.appendChild(pages);
         bookInfo.appendChild(read);
+        readLbl.appendChild(readSpan)
+        bookInfo.appendChild(readLbl);
         bookBody.appendChild(bookInfo);
 
         // bookOptions.appendChild(edit_btn);
@@ -215,3 +223,5 @@ book_option_buttons.addEventListener(`click`, (e) => {
 
 
 })
+
+displayLibrary();
